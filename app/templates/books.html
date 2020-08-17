@@ -31,7 +31,7 @@
 </table>
 <div>
     <h2> Dodaj nową książkę</h2>
-    <form method="POST" action="/expenses/">
+    <form method="POST" action="/library/">
         {{ form.hidden_tag() }}
         <table>
             {% for field in form if field.widget.input_type != 'hidden' %}

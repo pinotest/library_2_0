@@ -1,4 +1,7 @@
 from app import db
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
 
 association_table = db.Table('association',
                              db.Column('Books', db.Integer,
@@ -40,3 +43,32 @@ class Shelf(db.Model):
 
     def __str__(self):
         return f"<Author {self.fullname}>"
+
+
+class Library:
+
+    def get_books_list():
+        return Books.query.all()
+
+    def create_new_book(title, type, author_fullname, shelf_status):
+        logging.info("title %s" % title)
+        logging.info("type %s" % type)
+        logging.info("author_fullname %s" % author_fullname)
+        logging.info("shelf_status %s" % shelf_status)
+
+        new_book = None
+        book_main = Books(title=title, type=type)
+        db.session.add(book_main)
+        book_author = Author(fullname=author_fullname)
+        db.session.add(book_author)
+        book_shelf = Shelf(status=shelf_status, book_id=book_main.id)
+        db.session.add(book_shelf)
+        # add relation book <=> author
+        book_main.author.append(book_author)
+        db.session.add(book_main)
+        db.session.commit()
+        new_book = True
+        return new_book
+
+
+library = Library()
