@@ -17,7 +17,6 @@ def get_books_list():
         if form.validate_on_submit():
             Library.create_new_book(
                 form.data['title'], form.data['type'], form.data['full_name'], form.data['status'])
-
         return redirect(url_for("get_books_list"))
     return render_template(
         'books.html',

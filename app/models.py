@@ -4,9 +4,9 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
 
 association_table = db.Table('association',
-                             db.Column('Books', db.Integer,
+                             db.Column('book_id', db.Integer,
                                        db.ForeignKey('books.id')),
-                             db.Column('Author', db.Integer,
+                             db.Column('author_id', db.Integer,
                                        db.ForeignKey('author.id'))
                              )
 
@@ -59,6 +59,7 @@ class Library:
         new_book = None
         book_main = Books(title=title, type=type)
         db.session.add(book_main)
+        db.session.flush()
         book_author = Author(fullname=author_fullname)
         db.session.add(book_author)
         book_shelf = Shelf(status=shelf_status, book_id=book_main.id)
