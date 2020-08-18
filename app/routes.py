@@ -2,7 +2,7 @@ from app import app
 from flask import Flask, render_template, request, redirect, url_for
 from app.models import Author, Books, Shelf, association_table
 from forms import BooksForm
-from app.models import Library
+from app.models import library
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
 
@@ -11,16 +11,16 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
 def get_books_list():
     """get books list"""
     form = BooksForm()
-    logging.info('form %s' % form)
-    logging.info('form.data %s' % form.data)
     if request.method == "POST":
         if form.validate_on_submit():
-            Library.create_new_book(
+            library.create_new_book(
                 form.data['title'], form.data['type'], form.data['full_name'], form.data['status'])
         return redirect(url_for("get_books_list"))
+    books = library.get_books_list()
+    logging.info("books: %s" % books)
     return render_template(
         'books.html',
-        books=Books.query.all(),
+        books=library.get_books_list(),
         title="Show Books",
         form=form
     )
