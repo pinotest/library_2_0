@@ -69,7 +69,15 @@ class Library:
         # add relation book <=> author
         book_main.author.append(book_author)
         db.session.add(book_main)
-        db.session.commit()
+        try:
+            db.session.commit()
+            logging.info("Commit successfully done")
+        except:
+            db.session.rollback()
+            logging.error("Rollback, something went wrong")
+        finally:
+            db.session.close()
+            logging.info("Session closed")
         new_book = True
         return new_book
 
