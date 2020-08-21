@@ -22,3 +22,8 @@ def get_books_list():
         title="Show Books",
         form=form
     )
+
+
+@app.route('/library/edit_book/<int:book_id>', methods=['GET', 'POST')
+def edit_book():
+    return pass
