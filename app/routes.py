@@ -16,8 +16,6 @@ def get_books_list():
             library.create_new_book(
                 form.data['title'], form.data['type'], form.data['full_name'], form.data['status'])
         return redirect(url_for("get_books_list"))
-    books = library.get_books_list()
-    logging.info("books: %s" % books)
     return render_template(
         'books.html',
         books=library.get_books_list(),
