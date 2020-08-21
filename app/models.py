@@ -50,11 +50,7 @@ class Library:
     def get_books_list(self):
         join_books_author = Books.query.join(Author, Books.author).with_entities(
             Books.id, Books.title, Books.type, Author.fullname)
-        # select_from_join = db.select(
-        #     [Books.id, Books.title, Books.type, Author.fullname]).select_from(join_books_author)
-        a = db.session.execute(join_books_author)
-        logging.info("a: %s " % str(a))
-        return a
+        return join_books_author
 
     def create_new_book(self, title, type, author_fullname, shelf_status):
         logging.info("title %s" % title)
