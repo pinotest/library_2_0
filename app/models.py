@@ -48,13 +48,13 @@ class Shelf(db.Model):
 class Library:
 
     def get_books_list(self):
-        join_books_author = Books.query.join(Author, Books.author)
-        select_from_join = db.select(
-            [Books.id, Books.title, Books.type, Author.fullname]).select_from(join_books_author)
-        logging.info("join: %s " % join_books_author)
-        logging.info("select: %s " % select_from_join)
-
-        return db.session.execute(select_from_join)
+        join_books_author = Books.query.join(Author, Books.author).with_entities(
+            Books.id, Books.title, Books.type, Author.fullname)
+        # select_from_join = db.select(
+        #     [Books.id, Books.title, Books.type, Author.fullname]).select_from(join_books_author)
+        a = db.session.execute(join_books_author)
+        logging.info("a: %s " % str(a))
+        return a
 
     def create_new_book(self, title, type, author_fullname, shelf_status):
         logging.info("title %s" % title)
